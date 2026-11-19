@@ -890,7 +890,8 @@ async def patch_guild_j2c(guild_id: int, data: J2CUpdate, bot: "zyrox" = Depends
                     except Exception as e:
                         print(f"Error updating/sending control panel via API: {e}")
 
-                bot.loop.create_task(update_or_send_panel())
+                import asyncio
+                asyncio.run_coroutine_threadsafe(update_or_send_panel(), bot.loop)
 
     return {"status": "success"}
 

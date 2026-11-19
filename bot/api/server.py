@@ -53,7 +53,6 @@ def create_app() -> FastAPI:
         title=f"{BRAND_NAME} Bot API",
         description=f"REST API to manage the {BRAND_NAME} Discord Bot features",
         version="1.0",
-        dependencies=[Depends(verify_api_key)],
         lifespan=lifespan
     )
 
@@ -103,16 +102,16 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
-    # Register Routers
-    app.include_router(bot.router, prefix="/api/v1/bot", tags=["Bot"])
-    app.include_router(guilds.router, prefix="/api/v1/guilds", tags=["Guilds"])
-    app.include_router(admin.router, prefix="/api/v1/admin", tags=["Admin"])
+    # Register Routers (protected by API key)
+    app.include_router(bot.router, prefix="/api/v1/bot", tags=["Bot"], dependencies=[Depends(verify_api_key)])
+    app.include_router(guilds.router, prefix="/api/v1/guilds", tags=["Guilds"], dependencies=[Depends(verify_api_key)])
+    app.include_router(admin.router, prefix="/api/v1/admin", tags=["Admin"], dependencies=[Depends(verify_api_key)])
 
     @app.get("/", summary="API Root", description="Returns basic API information and online status.")
     async def root():
         return {
             "status": "online",
-            "bot_name": {BRAND_NAME},
+            "bot_name": BRAND_NAME,
             "api_version": "1.0"
         }
 

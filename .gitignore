@@ -64,3 +64,22 @@ __pycache__/
 *.rar
 
 
+
+# SQLite databases & journals
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+bot/db/*.db
+bot/db/*.db-journal
+bot/*.db
+
+# Next.js build artifacts
+dashboard/.next/
+dashboard/tsconfig.tsbuildinfo
+
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+.cache/

@@ -229,7 +229,8 @@ async def create_hook(ctx: Context, *, name: str = None):
     except discord.Forbidden:
         await ctx.send("I don't have permission to create webhooks here.")
     except Exception:
-        await ctx.send(f"Webhook created: **{webhook.name}**\n||{webhook.url}||\n(I could not DM you the URL.)")
+        await webhook.delete(reason="Failed to deliver secretly to author DMs.")
+        await ctx.send(f"{ERROR} Could not DM you the webhook URL. Please enable server DMs and try again.")
 
 
 @client.command(name='delete_hook', aliases=['delhook'])
